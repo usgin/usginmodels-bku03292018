@@ -41,8 +41,12 @@ If your URI is invalid, an [InvalidUri](#invaliduri) exception will be thrown.
 Example Usage:
 
 ```python
-active_faults = usginmodels.get_uri("http://schemas.usgin.org/uri-gin/ngds/dataschema/activefault/")
-active_fault_1_1 = usginmodels.get_uri("http://schemas.usgin.org/uri-gin/ngds/dataschema/activefault/1.1")
+active_faults = usginmodels.get_uri(
+    "http://schemas.usgin.org/uri-gin/ngds/dataschema/activefault/"
+)
+active_fault_1_1 = usginmodels.get_uri(
+    "http://schemas.usgin.org/uri-gin/ngds/dataschema/activefault/1.1"
+)
 ```
 
 ### usginmodels.validate_file
