@@ -1,6 +1,8 @@
 from datetime import datetime
 from dateutil import parser as date_parser
 
+from layer import Layer
+
 
 class ModelVersion():
 
@@ -16,8 +18,5 @@ class ModelVersion():
         self.uri = version_dict.get("uri", "")
         self.xsd_url = version_dict.get("xsd_file_path", "")
         self.xls_url = version_dict.get("xls_file_path", "")
-        self.date_created = date_parser(version_dict.get("date_created", self.date_created.isoformat()))
-        self.layers = []
-
-    def validate_file(self, csv_file):
-        pass
+        self.date_created = date_parser.parse(version_dict.get("date_created", self.date_created.isoformat()))
+        self.layers = [Layer(l, k) for l, k in version_dict.get("field_info",[]).items()]

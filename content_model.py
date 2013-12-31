@@ -18,14 +18,15 @@ class ContentModel():
         self.label = model_dict.get("label", "")
         self.description = model_dict.get("description", "")
         self.uri = model_dict.get("uri", "")
-        self.date_updated = date_parser(model_dict.get("date_updated", self.date_updated.isoformat()))
+
+        self.date_updated = date_parser.parse(model_dict.get("date_updated", self.date_updated.isoformat()))
         self.versions = [ModelVersion(v) for v in model_dict.get("versions", [])]
 
     def latest_version(self):
         """
         Return the latest version
         """
-        sorted_versions = self.versions.sort(key=lambda v: v.date_created)
+        sorted_versions = sorted(self.versions, key=lambda v: v.date_created)
         if len(sorted_versions) == 0:
             return None
 
