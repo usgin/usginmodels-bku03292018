@@ -19,4 +19,4 @@ class ModelVersion():
         self.xsd_url = version_dict.get("xsd_file_path", "")
         self.xls_url = version_dict.get("xls_file_path", "")
         self.date_created = date_parser.parse(version_dict.get("date_created", self.date_created.isoformat()))
-        self.layers = [Layer(l, k) for l, k in version_dict.get("field_info",[]).items()]
+        self.layers = [Layer(l, k) for l, k in version_dict.get("layers_info",[]).items()]

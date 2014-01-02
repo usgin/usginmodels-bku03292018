@@ -45,7 +45,6 @@ class Layer():
                 if not encoding_error:
                     # Check data types
                     type_error, data = f.validate_field(data)
-                    # type_error, data = check_field_type(data, f)
                     errors = addError(i, type_error, errors)
 
                 rowCorrected.append(data)
