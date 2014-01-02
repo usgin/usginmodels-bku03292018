@@ -23,6 +23,7 @@ class Layer():
         if self.fields.__len__()-2 != len(csv_file.fieldnames):
             errors.append("Error! The imported CSV does not have the correct number of fields. Check the schema.")
 
+        used_uris = []
         primary_uri_field = get_primary_uri_field(self.fields[1:][:-1])
         print "Primary URI field: " + primary_uri_field.field_name
 
@@ -38,14 +39,21 @@ class Layer():
                         errors.append("Error! " + f.field_name + " is a required field but was not found in the imported csv file.")
                     return False, errors, dataCorrected
 
+                # Remove leading and trailing whitespace
+                data = data.strip()
+
                 # Check encoding of data
                 encoding_error = check_encoding(data)
-                errors = addError(i, encoding_error, errors)
+                valid, errors = addError(i, valid, encoding_error, errors)
 
                 if not encoding_error:
                     # Check data types
                     type_error, data = f.validate_field(data)
-                    errors = addError(i, type_error, errors)
+                    valid, errors = addError(i,valid, type_error, errors)
+
+                    # Check URIs
+                    uri_error, data, used_uris = f.check_uri(data, primary_uri_field, used_uris)
+                    valid, errors = addError(i, valid, uri_error, errors)
 
                 rowCorrected.append(data)
             dataCorrected.append(rowCorrected)
@@ -73,11 +81,11 @@ def check_encoding(data):
 
     return msg
 
-def addError(i, error, errors):
+def addError(i, valid, error, errors):
     """ Add error message to the list of errors and set the validity"""
 
     if error:
         if "Error" in error:
             valid = False
         errors.append("Row " + str(i+1) + " " + error)
-    return errors
+    return valid, errors
