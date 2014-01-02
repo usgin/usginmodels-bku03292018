@@ -66,6 +66,10 @@ class Field():
                     data = datetime.datetime(1901, 01, 01, 00, 00, 00).isoformat()
                     msg = "Warning! " + self.field_name + " can't be blank. Changing to " + data
 
+        # Improper schema or new type
+        else:
+            msg = "Error! " + self.field_name + ": schema does not indicate string, double or dateTime for this field"
+
         return msg, data
 
     def check_uri(self, data, primaryURIField, used_uris):
