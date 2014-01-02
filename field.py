@@ -102,3 +102,19 @@ class Field():
                         used_uris.append(data)
 
         return msg, data, used_uris
+
+    def check_temp_units(self, data, temp_units):
+        """The temperature units must either be F or C and must be consistent throughout the entire dataset"""
+        msg = None
+
+        if self.field_name == "TemperatureUnits":
+            if data.lower() == "f" or data.lower() == "c":
+                if temp_units == "":
+                    temp_units = data.lower()
+                else:
+                    if data.lower() != temp_units:
+                        msg = "Error! " + self.field_name + " indicates a temperature unit different than the first row of data (" + temp_units + "). Units must match. (Currently " + data + ")"
+            else:
+                msg = "Error! " + self.field_name + " indicates a temperature unit that is not valid (" + data + ")"
+
+        return msg, data, temp_units

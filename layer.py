@@ -26,6 +26,8 @@ class Layer():
         used_uris = []
         primary_uri_field = get_primary_uri_field(self.fields[1:][:-1])
 
+        temp_units = ""
+
         for i, row in enumerate(csv_file):
             rowCorrected = []
             for f in self.fields[1:][:-1]:
@@ -53,6 +55,10 @@ class Layer():
                     # Check URIs
                     uri_error, data, used_uris = f.check_uri(data, primary_uri_field, used_uris)
                     valid, errors = addError(i, valid, uri_error, errors)
+
+                    # Check temperature units
+                    temp_units_error, data, temp_units = f.check_temp_units(data, temp_units)
+                    valid, errors = addError(i, valid, temp_units_error, errors)
 
                 rowCorrected.append(data)
             dataCorrected.append(rowCorrected)
