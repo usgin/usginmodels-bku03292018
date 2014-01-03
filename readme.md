@@ -75,7 +75,7 @@ layer = usginmodels.get_layer("http://schemas.usgin.org/uri-gin/ngds/dataschema/
 
 ### usginmodels.validate_file(csv_file, uri, layer_name = "")
 
-Pass in a URI as a string, and a **file-like object** that represents a CSV file. The layer name is optional but will give an error if the model is multilayered. Returned is a boolean specifying if the data is valid or not, a list of error message and a list of lists with the data corrected to conform to NGDS parameters. If there are error messages but valid is True, the file is only valid if the data in dataCorrected is used.
+Pass in a URI as a string, and a **file-like object** that represents a CSV file. The layer name is optional but will give an error if the model is multilayered. Returned is a boolean specifying if the data is valid or not, a list of error message, a list of lists with the data corrected to conform to NGDS parameters and a dictionary of long_fields. If there are error messages but valid is True, the file is only valid if the data in dataCorrected is used.
 
 Example Usage:
 
@@ -85,18 +85,19 @@ import csv
 my_csv = open("AZRockChemistryUSeries.csv", "r")
 csv_text = csv.DictReader(my_csv)
 
-valid, errors, dataCorrected = usginmodels.validate_file(
+valid, errors, dataCorrected, long_fields = usginmodels.validate_file(
     csv_text,
     "http://schemas.usgin.org/uri-gin/ngds/dataschema/rockchemistry",
     "USeries"
 )
 
 if valid and len(errors) == 0:
-    print "Hurrah the document is valid!"
+    print "Hurrah the document is valid! However, the corrected data should be used to ensure data integrity."
 elif valid and len(errors) != 0:
     print "The document is valid if the changes below are acceptable."
-    print errors
 else:
     print "Not Valid! Error messages:"
-    print errors
+
+for e in errors:
+    print e
 ```

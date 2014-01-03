@@ -139,3 +139,15 @@ class Field():
                 msg = "Error! " + self.field_name + ":Temperature must be between 0 and 999. (Currently " + str(data) + ")"
 
         return msg, data
+
+    def check_field_length(self, data, long_fields):
+        """Check for data longer than 255 characters"""
+
+        try:
+            long_fields[self.field_name]
+        except:
+            long_fields[self.field_name] = False
+        if len(str(data)) > 255:
+            long_fields[self.field_name] = True
+
+        return long_fields

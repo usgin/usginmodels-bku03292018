@@ -28,6 +28,7 @@ class Layer():
 
         temp_units = ""
         srs = ""
+        long_fields = {}
 
         for i, row in enumerate(csv_file):
             rowCorrected = []
@@ -65,10 +66,13 @@ class Layer():
                     domain_error, data = f.check_domain(data)
                     valid, errors = addError(i, valid, domain_error, errors)
 
+                    # Check length of data
+                    long_fields = f.check_field_length(data, long_fields)
+
                 rowCorrected.append(data)
             dataCorrected.append(rowCorrected)
 
-        return valid, errors, dataCorrected
+        return valid, errors, dataCorrected, long_fields
 
 def check_fields(csvFields, xsdFields):
     """Check that fields in the csv match those in the schema"""
