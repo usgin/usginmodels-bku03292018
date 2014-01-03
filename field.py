@@ -120,14 +120,14 @@ class Field():
         return msg, data, temp_units
 
     def check_domain(self, data):
-        """The srs must be EPSG:4326 and must be consistent throughout the entire dataset"""
+        """Check specified fields for valid data"""
         msg = None
 
         if "SRS" in self.field_name:
             if "4326" in data or "84" in data:
                 data = "EPSG:4326"
             else:
-                msg = "Error! " + self.field_name + " does not indicate spatial reference system EPSG:4326 (WGS84)"
+                msg = "Error! " + self.field_name + " does not indicate spatial reference system EPSG:4326 (WGS84). (Currently " + str(data) + ")"
         elif self.field_name == "LatDegree" or self.field_name == "LatDegreeWGS84":
             if not (data >= -90 and data <= 90):
                 msg = "Error! " + self.field_name + ": Latitude must be between -90 and 90. (Currently " + str(data) + ")"
