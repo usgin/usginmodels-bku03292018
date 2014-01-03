@@ -128,5 +128,14 @@ class Field():
                 data = "EPSG:4326"
             else:
                 msg = "Error! " + self.field_name + " does not indicate spatial reference system EPSG:4326 (WGS84)"
+        elif self.field_name == "LatDegree" or self.field_name == "LatDegreeWGS84":
+            if not (data >= -90 and data <= 90):
+                msg = "Error! " + self.field_name + ": Latitude must be between -90 and 90. (Currently " + str(data) + ")"
+        elif self.field_name == "LongDegreeWGS84" or self.field_name == "LongDegree":
+            if not (data >= -180 and data <= 180):
+                msg = "Error! " + self.field_name + ": Longitude must be between -180 and 180. (Currently " + str(data) + ")"
+        elif self.field_name == "MaximumRecordedTemperature" or self.field_name == "MeasuredTemperature" or self.field_name == "CorrectedTemperature" or self.field_name == "Temperature":
+            if not (data >= 0 and data <= 999) and data != -999 and data != -9999 and data != "":
+                msg = "Error! " + self.field_name + ":Temperature must be between 0 and 999. (Currently " + str(data) + ")"
 
         return msg, data
