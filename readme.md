@@ -75,7 +75,14 @@ layer = usginmodels.get_layer("http://schemas.usgin.org/uri-gin/ngds/dataschema/
 
 ### usginmodels.validate_file(csv_file, uri, layer_name = "")
 
-Pass in a URI as a string, and a **file-like object** that represents a CSV file. The layer name is optional but will give an error if the model is multilayered. Returned is a boolean specifying if the data is valid or not, a list of error message, a list of lists with the data corrected to conform to NGDS parameters and a dictionary of long_fields. If there are error messages but valid is True, the file is only valid if the data in dataCorrected is used.
+Pass in a URI as a string, and a **file-like object** that represents a CSV file. The layer name is **optional** but will error if the model is multi-layered.
+Returned:
+ - a boolean specifying if the data is valid or not
+ - a list of error message
+ - a list of lists with the data corrected to conform to NGDS parameters
+ - a dictionary with field names as the key and True or False as the value representing whether or not any data in that field is over 255 characters in length
+ - a string indicating the spatial reference system of the dataset
+If there are error messages but valid is True, the file is only valid if the returned corrected data is used.
 
 Example Usage:
 
@@ -85,7 +92,7 @@ import csv
 my_csv = open("AZRockChemistryUSeries.csv", "r")
 csv_text = csv.DictReader(my_csv)
 
-valid, errors, dataCorrected, long_fields = usginmodels.validate_file(
+valid, errors, dataCorrected, long_fields, srs = usginmodels.validate_file(
     csv_text,
     "http://schemas.usgin.org/uri-gin/ngds/dataschema/rockchemistry",
     "USeries"

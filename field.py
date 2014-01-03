@@ -119,16 +119,34 @@ class Field():
 
         return msg, data, temp_units
 
+    def check_srs(self, data, srs):
+        """Check that the SRS field is consistent throughout the entire dataset"""
+        msg = None
+
+        if "SRS" in self.field_name:
+            # If the SRS column indicates EPSG:4326 (WGS84)
+            if "4326" in data or "84" in data:
+                data = "EPSG:4326"
+            # If the SRS column indicates EPSG:4269 (NAD83)
+            elif "4269" in data or "83" in data:
+                data = "EPSG:4269"
+            # If the SRS column indicates EPSG:4267 (NAD27)
+            elif "4267" in data or "27" in data:
+                data = "EPSG:4267"
+
+            if srs == "":
+                srs = data
+            else:
+                if data != srs:
+                    msg = "Error! " + self.field_name + " indicates a different coordinate system than the first row of data (" + srs + "). SRS field values must be consistent. (Currently " + data + ")"
+
+        return msg, data, srs
+
     def check_domain(self, data):
         """Check specified fields for valid data"""
         msg = None
 
-        if "SRS" in self.field_name:
-            if "4326" in data or "84" in data:
-                data = "EPSG:4326"
-            else:
-                msg = "Error! " + self.field_name + " does not indicate spatial reference system EPSG:4326 (WGS84). (Currently " + str(data) + ")"
-        elif self.field_name == "LatDegree" or self.field_name == "LatDegreeWGS84":
+        if self.field_name == "LatDegree" or self.field_name == "LatDegreeWGS84":
             if not (data >= -90 and data <= 90):
                 msg = "Error! " + self.field_name + ": Latitude must be between -90 and 90. (Currently " + str(data) + ")"
         elif self.field_name == "LongDegreeWGS84" or self.field_name == "LongDegree":

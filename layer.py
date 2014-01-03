@@ -63,6 +63,10 @@ class Layer():
                     valid, errors = addError(i, valid, temp_units_error, errors)
 
                     # Check SRS
+                    srs_error, data, srs = f.check_srs(data, srs)
+                    valid, errors = addError(i, valid, srs_error, errors)
+
+                    # Check Domain
                     domain_error, data = f.check_domain(data)
                     valid, errors = addError(i, valid, domain_error, errors)
 
@@ -72,7 +76,7 @@ class Layer():
                 rowCorrected.append(data)
             dataCorrected.append(rowCorrected)
 
-        return valid, errors, dataCorrected, long_fields
+        return valid, errors, dataCorrected, long_fields, srs
 
 def check_fields(csvFields, xsdFields):
     """Check that fields in the csv match those in the schema"""
