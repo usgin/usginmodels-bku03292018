@@ -118,3 +118,15 @@ class Field():
                 msg = "Error! " + self.field_name + " indicates a temperature unit that is not valid (" + data + ")"
 
         return msg, data, temp_units
+
+    def check_domain(self, data):
+        """The srs must be EPSG:4326 and must be consistent throughout the entire dataset"""
+        msg = None
+
+        if "SRS" in self.field_name:
+            if "4326" in data or "84" in data:
+                data = "EPSG:4326"
+            else:
+                msg = "Error! " + self.field_name + " does not indicate spatial reference system EPSG:4326 (WGS84)"
+
+        return msg, data
