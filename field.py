@@ -24,7 +24,7 @@ class Field():
                 data = str(data)
             except:
                 if self.field_optional == False:
-                    msg = "Error! Type should be string. Changing " + data + " to Missing"
+                    msg = "Error! " + self.field_name + " type should be string. Changing " + data + " to Missing"
                 else:
                     msg = "Warning! " + self.field_name + " not recognized as a string. Deleting " + data
                     data = ""
@@ -39,7 +39,7 @@ class Field():
                     data = float(data)
                 except:
                     if self.field_optional == False:
-                        msg = "Warning! Type should be double. Changing " + str(data) + " to -9999"
+                        msg = "Warning! " + self.field_name + " type should be double. Changing " + str(data) + " to -9999"
                         data = -9999
                     else:
                         msg = "Warning! " + self.field_name + " not recognized as a double. Deleting " + str(data)
@@ -56,7 +56,7 @@ class Field():
                     data = (parser.parse(data, default=datetime.datetime(1901, 01, 01, 00, 00, 00))).isoformat()
                 except:
                     if self.field_optional == False:
-                        msg = "Warning! Type should be dateTime. Changing " + str(data) + " to 1901-01-01T00:00:00"
+                        msg = "Warning! " + self.field_name + " type should be dateTime. Changing " + str(data) + " to 1901-01-01T00:00:00"
                         data = datetime.datetime(1901, 01, 01, 00, 00, 00).isoformat()
                     else:
                         msg = "Warning! " + self.field_name + " not recognized as a date. Deleting " + str(data)
@@ -68,7 +68,7 @@ class Field():
 
         # Improper schema or new type
         else:
-            msg = "Error! " + self.field_name + ": schema does not indicate string, double or dateTime for this field"
+            msg = "Error! " + self.field_name + " not indicated in schema to be string, double or dateTime"
 
         return msg, data
 

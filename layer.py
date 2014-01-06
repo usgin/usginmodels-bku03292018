@@ -40,7 +40,7 @@ class Layer():
                 except:
                     if f.field_optional == False:
                         errors.append("Error! " + f.field_name + " is a required field but was not found in the imported csv file.")
-                    return False, errors, []
+                    return False, errors, [], {}, ""
 
                 # Remove leading and trailing whitespace
                 data = data.strip()
