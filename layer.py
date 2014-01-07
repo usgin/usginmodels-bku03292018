@@ -21,7 +21,7 @@ class Layer():
         # Check the fields in the csv against those in the schema, not including the first field (OBJECTID) or last field (Shape)
         errors = check_fields(csv_file.fieldnames, self.fields[1:][:-1])
         if errors:
-            return False, errors, []
+            return False, errors, [], {}, ""
 
         used_uris = []
         primary_uri_field = get_primary_uri_field(self.fields[1:][:-1])
