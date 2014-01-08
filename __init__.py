@@ -18,13 +18,6 @@ def get_models():
     """Return a List of ContentModel objects"""
     return cache.models
 
-def get_versions_list():
-    versions_dict = {}
-    for m in cache.models:
-        for v in m.versions:
-            versions_dict[m.title + " " + v.version] = v.uri
-    return versions_dict
-
 def get_uris(uri):
     """Given a URI return the uri of the Model and the uri of the Version, if known"""
 

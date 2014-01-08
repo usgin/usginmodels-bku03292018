@@ -24,13 +24,13 @@ class Field():
                 data = str(data)
             except:
                 if self.field_optional == False:
-                    msg = "Error! " + self.field_name + " type should be string. Changing " + data + " to Missing"
+                    msg = "Error! " + self.field_name + ": Type must be string. Changing " + data + " to Missing"
                 else:
-                    msg = "Warning! " + self.field_name + " not recognized as a string. Deleting " + data
+                    msg = "Warning! " + self.field_name + ": Not recognized as a string. Deleting " + data
                     data = ""
             if data == "" and self.field_optional == False:
                 data = "Missing"
-                msg = "Warning! " + self.field_name + " can't be blank. Changing to Missing"
+                msg = "Warning! " + self.field_name + ": Can't be blank. Changing to Missing"
 
         # Double type
         elif self.field_type == "double":
@@ -39,15 +39,15 @@ class Field():
                     data = float(data)
                 except:
                     if self.field_optional == False:
-                        msg = "Warning! " + self.field_name + " type should be double. Changing " + str(data) + " to -9999"
+                        msg = "Warning! " + self.field_name + ": Type must be double. Changing " + str(data) + " to -9999"
                         data = -9999
                     else:
-                        msg = "Warning! " + self.field_name + " not recognized as a double. Deleting " + str(data)
+                        msg = "Warning! " + self.field_name + ": Not recognized as a double. Deleting " + str(data)
                         data = ""
             else:
                 if self.field_optional == False:
                     data = -9999
-                    msg = "Warning! " + self.field_name + " can't be blank. Changing to -9999"
+                    msg = "Warning! " + self.field_name + ": Can't be blank. Changing to -9999"
 
         # DateTime type
         elif self.field_type == "dateTime":
@@ -56,19 +56,19 @@ class Field():
                     data = (parser.parse(data, default=datetime.datetime(1901, 01, 01, 00, 00, 00))).isoformat()
                 except:
                     if self.field_optional == False:
-                        msg = "Warning! " + self.field_name + " type should be dateTime. Changing " + str(data) + " to 1901-01-01T00:00:00"
+                        msg = "Warning! " + self.field_name + ": Type must be dateTime. Changing " + str(data) + " to 1901-01-01T00:00:00"
                         data = datetime.datetime(1901, 01, 01, 00, 00, 00).isoformat()
                     else:
-                        msg = "Warning! " + self.field_name + " not recognized as a date. Deleting " + str(data)
+                        msg = "Warning! " + self.field_name + ": Not recognized as a date. Deleting " + str(data)
                         data = ""
             else:
                 if self.field_optional == False:
                     data = datetime.datetime(1901, 01, 01, 00, 00, 00).isoformat()
-                    msg = "Warning! " + self.field_name + " can't be blank. Changing to " + data
+                    msg = "Warning! " + self.field_name + ": Can't be blank. Changing to " + data
 
         # Improper schema or new type
         else:
-            msg = "Error! " + self.field_name + " not indicated in schema to be string, double or dateTime"
+            msg = "Error! " + self.field_name + ": Not indicated in schema to be string, double or dateTime"
 
         return msg, data
 
@@ -83,20 +83,22 @@ class Field():
                 # Remove any whitespace in the URI, unless there is a pipe character indicating multiple URIs
                 if not "|" in data:
                     data = data.replace(" ", "")
+                    msg = self.field_name + ": Removed whitespace in " + data
                 # If the value does not start with "http://resources.usgin.org/uri-gin/"
                 if data.find("http://resources.usgin.org/uri-gin/") != 0:
-                    msg = "Error! " + self.field_name + ": URI needs to start with http://resources.usgin.org/uri-gin/ (Currently " + data + ".)"
+                    msg = "Error! " + self.field_name + ": URI needs to start with http://resources.usgin.org/uri-gin/. Change " + data
                 # If the last character is not a backslash add one
                 if data[len(data)-1] != "/":
                     data = data + "/"
+                    msg = self.field_name + ": Added missing '/' to the end of " + data
                 # If the URI has less than 7 backslashes it does not have enough parts
                 if data.count("/") < 7:
-                    msg = "Error! " + self.field_name + ": URI field does not have enough components."
+                    msg = "Error! " + self.field_name + ": URI field does not have enough components. Change " + data
                 # If the current field is the primary URI field there can be no duplicates
                 if self.field_name == primaryURIField.field_name:
                     # If the current URI is already in the list of URIs there is an error
                     if data in used_uris:
-                        msg = "Error! " + self.field_name + ": URI has already been used. (" + data + ")"
+                        msg = "Error! " + self.field_name + ": URI has already been used. Change " + data
                     # If the current URI is not in the list of URIs add it
                     else:
                         used_uris.append(data)
@@ -113,9 +115,9 @@ class Field():
                     temp_units = data.lower()
                 else:
                     if data.lower() != temp_units:
-                        msg = "Error! " + self.field_name + " indicates a temperature unit different than the first row of data (" + temp_units + "). Units must match. (Currently " + data + ")"
+                        msg = "Error! " + self.field_name + ": Temperature unit " + temp_units + " has already been specified for this data. All units must be consistent. Change " + data
             else:
-                msg = "Error! " + self.field_name + " indicates a temperature unit that is not valid (" + data + ")"
+                msg = "Error! " + self.field_name + ": Temperature unit " + data + " is not valid"
 
         return msg, data, temp_units
 
@@ -138,7 +140,7 @@ class Field():
                 srs = data
             else:
                 if data != srs:
-                    msg = "Error! " + self.field_name + " indicates a different coordinate system than the first row of data (" + srs + "). SRS field values must be consistent. (Currently " + data + ")"
+                    msg = "Error! " + self.field_name + ": Coordinate system " + srs + " has already been specified for this data. Coordinate system must remain consistent. Change " + data
 
         return msg, data, srs
 
@@ -148,13 +150,13 @@ class Field():
 
         if self.field_name == "LatDegree" or self.field_name == "LatDegreeWGS84":
             if not (data >= -90 and data <= 90):
-                msg = "Error! " + self.field_name + ": Latitude must be between -90 and 90. (Currently " + str(data) + ")"
+                msg = "Error! " + self.field_name + ": Latitude must be between -90 and 90. Change " + str(data)
         elif self.field_name == "LongDegreeWGS84" or self.field_name == "LongDegree":
             if not (data >= -180 and data <= 180):
-                msg = "Error! " + self.field_name + ": Longitude must be between -180 and 180. (Currently " + str(data) + ")"
+                msg = "Error! " + self.field_name + ": Longitude must be between -180 and 180. Change " + str(data)
         elif self.field_name == "MaximumRecordedTemperature" or self.field_name == "MeasuredTemperature" or self.field_name == "CorrectedTemperature" or self.field_name == "Temperature":
             if not (data >= 0 and data <= 999) and data != -999 and data != -9999 and data != "":
-                msg = "Error! " + self.field_name + ":Temperature must be between 0 and 999. (Currently " + str(data) + ")"
+                msg = "Error! " + self.field_name + ":Temperature must be between 0 and 999. Change " + str(data)
 
         return msg, data
 
