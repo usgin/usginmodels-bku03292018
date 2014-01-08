@@ -18,11 +18,6 @@ class Layer():
         dataCorrected = []
         dataCorrected.append([f.field_name for f in self.fields[1:][:-1]])
 
-        # Check the fields in the csv against those in the schema, not including the first field (OBJECTID) or last field (Shape)
-        errors = check_fields(csv_file.fieldnames, self.fields[1:][:-1])
-        if errors:
-            return False, errors, [], {}, ""
-
         used_uris = []
         primary_uri_field = get_primary_uri_field(self.fields[1:][:-1])
 
@@ -40,7 +35,9 @@ class Layer():
                 except:
                     if f.field_optional == False:
                         errors.append("Error! " + f.field_name + " is a required field but was not found in the imported file.")
-                    return False, errors, [], {}, ""
+                        return False, errors, [], {}, ""
+                    else:
+                        data = ""
 
                 # Remove leading and trailing whitespace
                 data = data.strip()
@@ -77,27 +74,6 @@ class Layer():
             dataCorrected.append(rowCorrected)
 
         return valid, errors, dataCorrected, long_fields, srs
-
-def check_fields(csvFields, xsdFields):
-    """Check that fields in the csv match those in the schema"""
-
-    msg = []
-    # Check if the number of fields in the csv in the same as the number of fields in the schema
-    if len(xsdFields) != len(csvFields):
-        msg.append("Error! The imported file does not have the correct number of fields. Check the schema.")
-        msg.append(str(len(csvFields)) + " fields in the imported file (fields on the left below).")
-        msg.append(str(len(xsdFields)) + " fields in the schema (fields on the right below).")
-        for csvF, xsdF in map(None, csvFields, xsdFields):
-            if xsdF != None:
-                if csvF != xsdF.field_name:
-                    msg.append(str(csvF) + " != " + xsdF.field_name)
-                else:
-                    msg.append(str(csvF) + " == " + xsdF.field_name)
-            else:
-                msg.append(str(csvF) + " != None")
-
-    return msg
-
 
 def get_primary_uri_field(fields):
     """Find the first field name containing URI"""

@@ -83,14 +83,14 @@ class Field():
                 # Remove any whitespace in the URI, unless there is a pipe character indicating multiple URIs
                 if not "|" in data:
                     data = data.replace(" ", "")
-                    msg = self.field_name + ": Removed whitespace in " + data
+                    msg = "Notice! " + self.field_name + ": Removed whitespace in " + data
                 # If the value does not start with "http://resources.usgin.org/uri-gin/"
                 if data.find("http://resources.usgin.org/uri-gin/") != 0:
                     msg = "Error! " + self.field_name + ": URI needs to start with http://resources.usgin.org/uri-gin/. Change " + data
                 # If the last character is not a backslash add one
                 if data[len(data)-1] != "/":
                     data = data + "/"
-                    msg = self.field_name + ": Added missing '/' to the end of " + data
+                    msg = "Notice! " + self.field_name + ": Added missing '/' to the end of " + data
                 # If the URI has less than 7 backslashes it does not have enough parts
                 if data.count("/") < 7:
                     msg = "Error! " + self.field_name + ": URI field does not have enough components. Change " + data
