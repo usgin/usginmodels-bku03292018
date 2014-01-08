@@ -110,7 +110,7 @@ class Field():
         msg = None
 
         if self.field_name == "TemperatureUnits":
-            if data.lower() == "f" or data.lower() == "c":
+            if data.lower() == "f" or data.lower() == "c" or data.lower() == "farenheit" or data.lower() == "celsius":
                 if temp_units == "":
                     temp_units = data.lower()
                 else:
