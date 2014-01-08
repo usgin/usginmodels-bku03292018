@@ -39,7 +39,7 @@ class Layer():
                     data = row[f.field_name]
                 except:
                     if f.field_optional == False:
-                        errors.append("Error! " + f.field_name + " is a required field but was not found in the imported csv file.")
+                        errors.append("Error! " + f.field_name + " is a required field but was not found in the imported file.")
                     return False, errors, [], {}, ""
 
                 # Remove leading and trailing whitespace
@@ -84,8 +84,8 @@ def check_fields(csvFields, xsdFields):
     msg = []
     # Check if the number of fields in the csv in the same as the number of fields in the schema
     if len(xsdFields) != len(csvFields):
-        msg.append("Error! The imported CSV does not have the correct number of fields. Check the schema.")
-        msg.append(str(len(csvFields)) + " fields in the csv (fields on the left below).")
+        msg.append("Error! The imported file does not have the correct number of fields. Check the schema.")
+        msg.append(str(len(csvFields)) + " fields in the imported file (fields on the left below).")
         msg.append(str(len(xsdFields)) + " fields in the schema (fields on the right below).")
         for csvF, xsdF in map(None, csvFields, xsdFields):
             if xsdF != None:
