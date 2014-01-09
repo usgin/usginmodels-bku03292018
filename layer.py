@@ -39,9 +39,6 @@ class Layer():
                     else:
                         data = ""
 
-                # Remove leading and trailing whitespace
-                data = data.strip()
-
                 # Check encoding of data
                 encoding_error = check_encoding(data)
                 valid, errors = addError(i, valid, encoding_error, errors)
@@ -50,6 +47,10 @@ class Layer():
                     # Check data types
                     type_error, data = f.validate_field(data)
                     valid, errors = addError(i,valid, type_error, errors)
+
+                    # Fix minor formatting issues
+                    format_error, data = f.fix_format(data)
+                    valid, errors = addError(i, valid, format_error, errors)
 
                     # Check URIs
                     uri_error, data, used_uris = f.check_uri(data, primary_uri_field, used_uris)
