@@ -81,7 +81,7 @@ class Field():
             if data != "" and data !="Missing" and self.field_name != "MetadataURI" and self.field_name != "SourceURI" and self.field_name != "SourceCitationURI":
                 data = data.replace("\n","")
                 # Remove any whitespace in the URI, unless there is a pipe character indicating multiple URIs
-                if not "|" in data:
+                if " " in data and not "|" in data:
                     data = data.replace(" ", "")
                     msg = "Notice! " + self.field_name + ": Removed whitespace in " + data
                 # If the value does not start with "http://resources.usgin.org/uri-gin/"
