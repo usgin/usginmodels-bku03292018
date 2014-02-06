@@ -1,6 +1,5 @@
-import re
-from field import Field
 from itertools import count, groupby
+from field import Field
 
 class Layer():
 
