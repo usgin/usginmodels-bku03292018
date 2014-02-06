@@ -49,13 +49,13 @@ class Layer():
                 valid, messages = addMessage(i, valid, encoding_error, messages)
 
                 if not encoding_error:
-                    # Check data types
-                    type_error, data = f.validate_field(data)
-                    valid, messages = addMessage(i,valid, type_error, messages)
-
                     # Fix minor formatting issues
                     format_error, data = f.fix_format(data)
                     valid, messages = addMessage(i, valid, format_error, messages)
+
+                    # Check data types
+                    type_error, data = f.validate_field(data)
+                    valid, messages = addMessage(i,valid, type_error, messages)
 
                     # Check URIs
                     uri_error, data, used_uris = f.check_uri(data, primary_uri_field, used_uris)
