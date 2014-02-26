@@ -89,7 +89,7 @@ class Field():
 
         if data == "nil:missing":
             data = "Missing"
-            msg = "Notice! " + self.field_name + ": Changed nil:missing to " + data
+            msg = "Notice! " + self.field_name + ": Changed nil:missing"
 
         return msg, data
 
@@ -108,7 +108,7 @@ class Field():
             # Remove any carriage returns in the URI
             if "\n" in data:
                 data = data.replace("\n", "")
-                msg = "Notice! " + self.field_name + ": Removed carriage return in " + data
+                msg = "Notice! " + self.field_name + ": Removed carriage return"
             # Remove any whitespace in the URI, unless there is a pipe character indicating multiple URIs
             if " " in data and not "|" in data:
                 data = data.replace(" ", "")
@@ -120,7 +120,7 @@ class Field():
                 # If the last character is not a backslash add one
                 if data[len(data)-1] != "/":
                     data = data + "/"
-                    msg = "Notice! " + self.field_name + ": Added missing '/' to the end of " + data
+                    msg = "Notice! " + self.field_name + ": Added missing '/' to the end"
                 # If the URI has less than 7 backslashes it does not have enough parts
                 if data.count("/") < 7:
                     msg = "Error! " + self.field_name + ": URI field does not have enough components. Change " + data
