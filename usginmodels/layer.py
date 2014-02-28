@@ -26,6 +26,10 @@ class Layer():
         srs = ""
         long_fields = {}
 
+        # Remove trailing and leading whitespace from field names in csv file
+        for i, field in enumerate(csv_text.fieldnames):
+            csv_text.fieldnames[i] = field.strip()
+
         for i, row in enumerate(csv_text):
             rowCorrected = []
             for f in self.fields[1:][:-1]:
