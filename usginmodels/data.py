@@ -1,4 +1,5 @@
-{
+def get_service_names():
+	return {
 	"http://schemas.usgin.org/uri-gin/ngds/dataschema/activefault/1.1": "ActiveFaults",
 	"http://schemas.usgin.org/uri-gin/ngds/dataschema/activefault/1.2": "ActiveFaults1_2",
 	"http://schemas.usgin.org/uri-gin/ngds/dataschema/aqueouschemistry/1.10": "AqueousChemistry1_10",
@@ -47,4 +48,4 @@
 	"http://schemas.usgin.org/uri-gin/ngds/dataschema/wellheader/1.5": "WellHeaders",
 	"http://schemas.usgin.org/uri-gin/ngds/dataschema/welllog/0.8": "WellLogs",
 	"http://schemas.usgin.org/uri-gin/ngds/dataschema/WellTest/1.0": "WellTests"
-}
+	}

@@ -73,6 +73,15 @@ layer = usginmodels.get_layer("http://schemas.usgin.org/uri-gin/ngds/dataschema/
 layer = usginmodels.get_layer("http://schemas.usgin.org/uri-gin/ngds/dataschema/rockchemistry", 'USeries')
 ```
 
+### usginmodels.get_service_name(version_uri)
+
+Pass in a URI with version information as a string and a service name will be returned.  If no service name
+is found, `"Invalid"` will be returned.
+
+```Python
+service_name = usginmodels.get_service_name("http://schemas.usgin.org/uri-gin/ngds/dataschema/boreholetemperature/1.5")
+```
+
 ### usginmodels.validate_file(csv_file, uri, layer_name = "")
 
 Pass in a URI as a string, and a **file-like object** that represents a CSV file. The layer name is **optional** but will error if the model is multi-layered.
