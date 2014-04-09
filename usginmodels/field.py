@@ -72,6 +72,18 @@ class Field():
 
         return msg, data
 
+    def check_encoding(self, data):
+        """Check that conversion to utf-8 and Win-1252 encoding (used by the server) is possible"""
+        msg = None
+
+        try:
+            data = data.encode("utf-8")
+            data = data.encode("windows-1252")
+        except:
+            msg = "Error! " + self.field_name + ": Found an unrecognized character."
+
+        return msg
+
     def fix_format(self, data):
         """Fix a few minor formatting issues"""
         msg = None
