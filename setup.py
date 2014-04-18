@@ -10,7 +10,7 @@ setup(
     author = 'Arizona Geological Survey',
     author_email = 'adrian.sonnenschein@gmail.com',
     url = 'https://github.com/usgin/usginmodels',
-    download_url = 'https://github.com/usgin/usginmodels/tarball/1.1.4',
+    download_url = 'https://github.com/usgin/usginmodels/tarball/1.1.5',
     keywords = ['usgin', 'ngds', 'azgs'],
     classifiers = [],
 )
