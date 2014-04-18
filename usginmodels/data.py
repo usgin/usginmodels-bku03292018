@@ -1,5 +1,6 @@
 def get_service_names():
 	return {
+	"http://stategeothermaldata.org/uri-gin/aasg/xmlschema/mines/0.3": "AbandonedMines",	
 	"http://stategeothermaldata.org/uri-gin/aasg/xmlschema/activefault/1.1": "ActiveFaults",
 	"http://stategeothermaldata.org/uri-gin/aasg/xmlschema/activefault/1.2": "ActiveFaults",
 	"http://stategeothermaldata.org/uri-gin/aasg/xmlschema/aqueouschemistry/1.10": "AqueousChemistry1_10",
