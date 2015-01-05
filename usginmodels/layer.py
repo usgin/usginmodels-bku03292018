@@ -26,10 +26,6 @@ class Layer():
         srs = ""
         long_fields = {}
 
-        # Remove trailing and leading whitespace from field names in csv file
-        for i, field in enumerate(csv_text.fieldnames):
-            csv_text.fieldnames[i] = field.strip()
-
         for i, row in enumerate(csv_text):
             rowCorrected = []
             for f in self.fields[1:][:-1]:
@@ -39,12 +35,12 @@ class Layer():
                     data = row[f.field_name]
                 except:
                     if f.field_optional == False:
-                        msg = "Error! " + f.field_name + " is a required field but was not found in the imported file."
+                        msg = "Error! " + f.field_name + " is a required field but was not found in the imported file (or there is extraneous whitespace in the field name)."
                         valid, messages = addMessage(-1, False, msg, messages)
                         messages = format_messages(messages)
                         return valid, messages, [], {}, ""
                     else:
-                        msg = "Warning! " + f.field_name + " was not found in the imported file but this is not a required field so ignoring."
+                        msg = "Warning! " + f.field_name + " was not found in the imported file (or there is extraneous whitespace in the field name) but this is not a required field so ignoring."
                         valid, messages = addMessage(-1, valid, msg, messages)
                         data = ""
 
