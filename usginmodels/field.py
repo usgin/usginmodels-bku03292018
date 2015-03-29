@@ -14,7 +14,7 @@ class Field():
         self.field_description = field.get("description", "")
         self.field_optional = field.get("optional", "")
 
-    def validate_field(self, data):
+    def validate_field(self, data, force_default=False):
         """Check that the data matches the required type: string, double or dateTime"""
         msg = None
 
@@ -41,6 +41,9 @@ class Field():
                     if self.field_optional == False:
                         msg = "Warning! " + self.field_name + ": Type must be double. Changing " + str(data) + " to -9999"
                         data = -9999
+                    elif force_default:
+                        msg = "Warning! " + self.field_name + ": Type must be double and can't be blank for this row. Changing to -9999"
+                        data = -9999
                     else:
                         msg = "Warning! " + self.field_name + ": Not recognized as a double. Deleting " + str(data)
                         data = ""
@@ -48,6 +51,9 @@ class Field():
                 if self.field_optional == False:
                     data = -9999
                     msg = "Warning! " + self.field_name + ": Can't be blank. Changing to -9999"
+                elif force_default:
+                    data = -9999
+                    msg = "Notice! " + self.field_name + ": Can't be blank for this row. Changing to -9999"
 
         # DateTime type
         elif self.field_type == "dateTime":
@@ -58,6 +64,9 @@ class Field():
                     if self.field_optional == False:
                         msg = "Warning! " + self.field_name + ": Type must be dateTime. Changing " + str(data) + " to 1901-01-01T00:00:00"
                         data = datetime.datetime(1901, 01, 01, 00, 00, 00).isoformat()
+                    elif force_default:
+                        msg = "Warning! " + self.field_name + ": Type must be dateTime and can't be blank for this row. Changing " + str(data) + " to 1901-01-01T00:00:00"
+                        data = datetime.datetime(1901, 01, 01, 00, 00, 00).isoformat()
                     else:
                         msg = "Warning! " + self.field_name + ": Not recognized as a date. Deleting " + str(data)
                         data = ""
@@ -65,6 +74,9 @@ class Field():
                 if self.field_optional == False:
                     data = datetime.datetime(1901, 01, 01, 00, 00, 00).isoformat()
                     msg = "Warning! " + self.field_name + ": Can't be blank. Changing to " + data
+                elif force_default:
+                    data = datetime.datetime(1901, 01, 01, 00, 00, 00).isoformat()
+                    msg = "Notice! " + self.field_name + ": Can't be blank for this row. Changing to " + data
 
         # Improper schema or new type
         else:

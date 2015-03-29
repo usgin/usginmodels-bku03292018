@@ -103,11 +103,11 @@ def get_layer(uri, layer_name = ""):
 
     return layer
 
-def validate_file(csv_file, uri, layer_name = ""):
+def validate_file(csv_file, uri, layer_name = "", default_fill = False):
     """Return boolean and validation errors"""
     layer = get_layer(uri, layer_name)
     csv_text = csv.DictReader(csv_file)
-    return layer.validate_file(csv_text)
+    return layer.validate_file(csv_text, default_fill)
 
 def get_service_name(version_uri):
     this_data = data.get_service_names()
