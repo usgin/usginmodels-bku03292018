@@ -11,7 +11,7 @@ class Layer():
         self.fields = [Field(f) for f in fields_dict]
 
 
-    def validate_file(self, csv_text):
+    def validate_file(self, csv_text, default_fill=False):
         messages = []
         valid = True
 
@@ -54,7 +54,10 @@ class Layer():
                     valid, messages = addMessage(i, valid, format_error, messages)
 
                     # Check data types
-                    type_error, data = f.validate_field(data)
+                    # force to fill default values for first row to fix
+                    # https://github.com/usgin/usginmodels/issues/5
+                    force_default = True if default_fill and i == 0 else False
+                    type_error, data = f.validate_field(data, force_default)
                     valid, messages = addMessage(i,valid, type_error, messages)
 
                     # Check URIs
