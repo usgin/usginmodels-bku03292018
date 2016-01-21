@@ -9,6 +9,13 @@ Start by importing the module
 ```python
 import usginmodels
 ```
+Note: 
+Change for NGDS systems. On large harvests the repeated retrieval of the usgin json file 
+causes the harvest to fail.  Changed so that a local usginmodel file is used
+that is updated daily. This is done with a cron job entry:
+
+0 3 * * * root /usr/bin/python /usr/lib/ckan/src/usginmodels/usginmodels/model_cache_renewal.py >> /var/log/model_cache_renew.log 2>&1
+
 
 This exposes several important functions:
 
